@@ -2,7 +2,7 @@
 {{- $username := or .username "parrotsec" -}}
 {{- $password := or .password "4869" -}}
 {{- $hostname := or .hostname "parrot" -}}
-{{- $debian_suite := or .debian_suite "bookworm" -}}
+{{- $debian_suite := or .debian_suite "trixie" -}}
 {{- $suite := or .suite $debian_suite -}}
 {{- $environment := or .environment "phosh" -}}
 {{- $installfs := or .installfs "installfs.tar.gz" }}

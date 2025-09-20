@@ -4,7 +4,7 @@
 {{- $partitiontable := or .partitiontable "gpt" }}
 {{- $filesystem := or .filesystem "ext4" }}
 {{- $environment := or .environment "phosh" -}}
-{{- $image := or .image "mobails" -}}
+{{- $image := or .image "parrotsec" -}}
 {{- $imagesize := or .imagesize "6GB" }}
 {{- $miniramfs := or .miniramfs "false" }}
 {{- $zram := or .zram "false" -}}
