@@ -90,6 +90,11 @@ actions:
 {{ end }}
 
   - action: run
+    description: Pre-install Parrot core dependencies
+    chroot: true
+    command: apt install -y libio-pty-perl libipc-run-perl moreutils
+
+  - action: run
     description: Set up parrotsec "core"
     chroot: true
     script: scripts/setup-parrotsec.sh
