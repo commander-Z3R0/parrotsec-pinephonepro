@@ -25,10 +25,10 @@ actions:
     command: mkdir -p ${ROOTDIR}/etc
 
   - action: run
-    description: Install parrot archive keyring from local .deb
-    chroot: false
-    command: dpkg -i ${ROOTDIR}/tmp/parrot-archive-keyring_2024.12_all.deb
-
+    description: Install parrot archive keyring
+    chroot: true
+    command: apt install -y /tmp/parrot-archive-keyring_2024.12_all.deb
+    
   - action: overlay
     source: apt/etc
     destination: /etc
