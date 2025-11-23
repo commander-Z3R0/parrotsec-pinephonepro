@@ -25,34 +25,30 @@ actions:
     command: mkdir -p ${ROOTDIR}/etc
 
   - action: overlay
-    source: apt/etc
-    destination: /etc
+    source: files/tmp
+    destination: /tmp
 
   - action: debootstrap
-    description: Bootstrap minimal Parrot system (skip GPG verification)
     suite: {{ $parrot_suite }}
     components:
       - main
-      {{- if eq $contrib "true" }}
+{{ if eq $contrib "true" }}
       - contrib
-      {{- end }}
-      {{- if eq $nonfree "true" }}
+{{ end }}
+{{ if eq $nonfree "true" }}
       - non-free-firmware
-      {{- end }}
+{{ end }}
     mirror: {{ $mirror }}
     variant: minbase
-    foreign: true   # <- importante, evita la verificación de firmas
-    keyring: /dev/null  # evita el error de firma
+    keyring: /tmp/parrot-archive-keyring.gpg
+    foreign: true
 
   - action: run
-    description: Install Parrot keyring inside rootfs
+    description: Install parrot archive keyring
     chroot: true
-    command: apt install -y /tmp/parrot-archive-keyring_2024.12_all.deb
-
-  - action: run
-    description: Update apt after installing keyring
-    chroot: true
-    command: apt update
+    command: |
+      apt install -y /tmp/parrot-archive-keyring_2024.12_all.deb
+      apt update
 
   - action: overlay
     description: Enable resize of root partition
@@ -64,12 +60,12 @@ actions:
     chroot: true
     script: scripts/setup-apt.sh {{ $parrot_suite }} {{ $suite }}
 
-  {{- if eq $nonfree "true" }}
+{{ if eq $nonfree "true" }}
   - action: run
     description: Enable non-free-firmware repos
     chroot: true
     script: scripts/setup-apt-nonfree.sh true
-  {{- end }}
+{{ end }}
 
   - action: recipe
     recipe: include/packages-base.yaml
@@ -84,7 +80,7 @@ actions:
     chroot: true
     script: scripts/setup-user.sh {{ $username }} {{ $password }}
 
-  {{- if $ssh }}
+{{ if $ssh }}
   - action: overlay
     description: Set up sshd configuration
     source: overlays/sshd_config.d/
@@ -99,20 +95,20 @@ actions:
     description: Set owner of .ssh
     chroot: true
     command: chown -R {{ $username }}:{{ $username }} /home/{{ $username }}/.ssh/
-  {{- end }}
+{{ end }}
 
-  {{- if eq $zram "true" }}
+{{ if eq $zram "true" }}
   - action: overlay
     description: setup zram devices
     source: overlays/zram/
     destination: /etc/
-  {{- end }}
+{{ end }}
 
   - action: run
     description: Pre-install Parrot core dependencies
     chroot: true
     command: apt install -y libio-pty-perl libipc-run-perl moreutils
-
+    
   - action: run
     description: Set up parrotsec "core"
     chroot: true
