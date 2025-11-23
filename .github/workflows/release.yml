@@ -10,7 +10,8 @@ permissions:
 
 jobs:
   build:
-    runs-on: [self-hosted, label-C0]
+    runs-on: ubuntu-latest
+    #runs-on: [self-hosted, label-C0]
 
     steps:
       - uses: actions/checkout@v4
