@@ -44,7 +44,7 @@ actions:
 {{ end }}
     mirror: {{ $mirror }}
     variant: minbase
-    keyring: /tmp/parrot-archive-keyring.gpg
+    keyring: /tmp/parrot-archive-keyring-deb.gpg
     foreign: true
 
   - action: run
