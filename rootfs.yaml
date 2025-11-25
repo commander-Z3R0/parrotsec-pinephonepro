@@ -25,10 +25,11 @@ actions:
     command: mkdir -p ${ROOTDIR}/etc
 
   - action: run
-    description: Extract Parrot GPG keyring
+    description: Install Parrot keyring for debootstrap
     chroot: false
     command: |
-      cp files/parrot-archive-keyring.gpg  /usr/share/keyrings/
+      mkdir -p ${ROOTDIR}/usr/share/keyrings
+      cp ${ROOTDIR}/tmp/parrot-archive-keyring.gpg ${ROOTDIR}/usr/share/keyrings/
 
   - action: debootstrap
     suite: {{ $parrot_suite }}
