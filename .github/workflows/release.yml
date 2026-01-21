@@ -41,13 +41,13 @@ jobs:
             -v "$PWD":/work \
             -w /work \
             parrotsec/debos-cryptsetup \
-            --scratchsize=8G \
+            rootfs.yaml \
             -t architecture:${arch} \
             -t device:${device} \
             -t environment:${environment} \
             -t rootfs:${rootfs_file} \
             -t nonfree:true \
-            rootfs.yaml
+            --scratchsize=8G
 
           docker run --rm \
             --privileged \
@@ -55,7 +55,7 @@ jobs:
             -v "$PWD":/work \
             -w /work \
             parrotsec/debos-cryptsetup \
-            --scratchsize=10G \
+            image.yaml \
             -t architecture:${arch} \
             -t device:${device} \
             -t environment:${environment} \
@@ -65,7 +65,7 @@ jobs:
             -t crypt_password:s1rr0s \
             -t bootonroot:false \
             -t nonfree:true \
-            image.yaml
+            --scratchsize=10G
 
           bmaptool create "${image_file}.img" > "${image_file}.img.bmap"
 
@@ -128,4 +128,3 @@ jobs:
           upload "$FILE_IMG"
           upload "$FILE_SHA"
           upload "$FILE_BMAP"
-
