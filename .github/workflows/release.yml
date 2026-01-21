@@ -41,12 +41,12 @@ jobs:
             -v "$PWD":/work \
             -w /work \
             parrotsec/debos-cryptsetup \
+            --scratchsize=8G \
             -t architecture:${arch} \
             -t device:${device} \
             -t environment:${environment} \
             -t rootfs:${rootfs_file} \
             -t nonfree:true \
-            --scratchsize=8G \
             rootfs.yaml
 
           docker run --rm \
@@ -55,6 +55,7 @@ jobs:
             -v "$PWD":/work \
             -w /work \
             parrotsec/debos-cryptsetup \
+            --scratchsize=10G \
             -t architecture:${arch} \
             -t device:${device} \
             -t environment:${environment} \
@@ -64,7 +65,6 @@ jobs:
             -t crypt_password:s1rr0s \
             -t bootonroot:false \
             -t nonfree:true \
-            --scratchsize=10G \
             image.yaml
 
           bmaptool create "${image_file}.img" > "${image_file}.img.bmap"
@@ -72,7 +72,7 @@ jobs:
       - name: Generate SHA256
         run: |
           image="ParrotSec-pinephonepro-phosh-encrypted.img"
-          sha256sum "$image" | tee "$image.sha256"
+          sha256sum "$image" | tee "${image}.sha256"
 
       - name: Upload encrypted image to GoFile
         env:
@@ -128,3 +128,4 @@ jobs:
           upload "$FILE_IMG"
           upload "$FILE_SHA"
           upload "$FILE_BMAP"
+
