@@ -34,10 +34,7 @@ actions:
     recommends: false
     packages:
       - ca-certificates
-      - usrmerge   
-      - perl
-      - libfile-find-rule-perl
-      - mobian-archive-keyring
+#      - mobian-archive-keyring
 
   - action: overlay
     description: Enable resize of root partition
