@@ -7,7 +7,7 @@
 {{- $nonfree := or .nonfree "false" -}}
 {{- $ssh := or .ssh "" -}}
 {{- $zram:= or .zram "false" -}}
-{{- $debian_suite := or .debian_suite "lory" -}}
+{{- $debian_suite := or .debian_suite "echo" -}}
 {{- $suite := or .suite $debian_suite -}}
 {{- $rootfs := or .rootfs "rootfs.tar.gz" }}
 {{- $mirror := or .mirror "https://deb.parrot.sh/parrot" -}}
