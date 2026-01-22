@@ -19,8 +19,7 @@ actions:
     suite: {{ $debian_suite }}
     check-gpg: false
     components:
-      - main
-      - usrmerge   
+      - main   
 {{ if eq $contrib "true" }}
       - contrib
 {{ end }}
@@ -35,6 +34,7 @@ actions:
     recommends: false
     packages:
       - ca-certificates
+      - usrmerge   
       - mobian-archive-keyring
 
   - action: overlay
