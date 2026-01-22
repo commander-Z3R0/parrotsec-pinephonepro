@@ -19,13 +19,17 @@ jobs:
           sudo apt-get update
           sudo apt-get install -y bmap-tools jq
 
-      - name: Build custom debos image (with cryptsetup)
+      - name: Build custom debos image (with Parrot keyring)
         run: |
           docker build \
             --build-arg DEBIAN_FRONTEND=noninteractive \
             -t parrotsec/debos-cryptsetup \
             -f Docker/Dockerfile.debos \
             .
+
+      - name: Download Parrot keyring to workspace
+        run: |
+          wget -O parrot-keyring.deb https://deb.parrot.sh/parrot/pool/main/p/parrot-archive-keyring/parrot-archive-keyring_2024.12_all.deb
 
       - name: Build encrypted image
         run: |
@@ -40,6 +44,7 @@ jobs:
             --privileged \
             --device /dev/kvm \
             -v "$PWD":/work \
+            -v "$PWD/parrot-keyring.deb":/tmp/parrot-archive-keyring_2024.12_all.deb \
             -w /work \
             -e DEBIAN_FRONTEND=noninteractive \
             parrotsec/debos-cryptsetup \
