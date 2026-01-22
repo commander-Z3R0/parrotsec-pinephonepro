@@ -7,7 +7,14 @@ actions:
     recommends: false
     description: Install Phosh packages
     packages:
-      - mobian-phosh
+	  - phosh
+	  - feedbackd
+	  - iio-sensor-proxy
+	  - fonts-noto
+	  - fonts-noto-color-emoji
+	  - mesa-libgallium-llvmpipe  # Graphics
+	  - network-manager-applet
+	  - xdg-desktop-portal-wlr
       # Additional software we don't want metapackages to depend on
       - cracklib-runtime # needed for pw change in UI, but g-c-c only recommends it
       - iproute2
