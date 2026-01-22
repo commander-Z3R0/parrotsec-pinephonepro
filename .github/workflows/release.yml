@@ -44,7 +44,6 @@ jobs:
             -e DEBIAN_FRONTEND=noninteractive \
             parrotsec/debos-cryptsetup \
             debos rootfs.yaml \
-            --no-check-gpg \
             --debug \
             --scratchsize=8G \
             -t architecture:${arch} \
@@ -61,7 +60,6 @@ jobs:
             -e DEBIAN_FRONTEND=noninteractive \
             parrotsec/debos-cryptsetup \
             debos image.yaml \
-            --no-check-gpg \
             --debug \
             --scratchsize=10G \
             -t architecture:${arch} \
@@ -134,5 +132,5 @@ jobs:
 
           upload "$FILE_IMG"
           upload "$FILE_SHA"
-          upload "$FILE_B
+          upload "$FILE_BMAP"
 
