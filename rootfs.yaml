@@ -17,6 +17,7 @@ architecture: {{ $architecture }}
 actions:
   - action: debootstrap
     suite: {{ $debian_suite }}
+    check-gpg: false
     components:
       - main
 {{ if eq $contrib "true" }}

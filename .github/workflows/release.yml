@@ -49,7 +49,8 @@ jobs:
             -t device:${device} \
             -t environment:${environment} \
             -t rootfs:${rootfs_file} \
-            -t nonfree:true
+            -t nonfree:true \
+            -t debian_suite:lory
 
           docker run --rm \
             --privileged \
