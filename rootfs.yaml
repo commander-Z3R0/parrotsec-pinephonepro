@@ -35,6 +35,8 @@ actions:
     packages:
       - ca-certificates
       - usrmerge   
+      - perl
+      - libfile-find-rule-perl
       - mobian-archive-keyring
 
   - action: overlay
