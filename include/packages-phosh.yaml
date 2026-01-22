@@ -12,7 +12,8 @@ actions:
       - iio-sensor-proxy
       - fonts-noto
       - fonts-noto-color-emoji
-      - mesa-libgallium-llvmpipe  # Graphics
+      - mesa-vulkan-drivers
+      - mesa-va-drivers     
       - network-manager-applet
       - xdg-desktop-portal-wlr
   # Additional software we don't want metapackages to depend on
