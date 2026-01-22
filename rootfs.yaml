@@ -41,10 +41,10 @@ actions:
     source: overlays/repart.d/
     destination: /etc/repart.d/
 
-#  - action: run
-#    description: Setup Parrotsec repository
-#    chroot: true
-#    script: scripts/setup-apt.sh {{ $debian_suite }} {{ $suite }}
+  - action: run
+    description: Setup Parrotsec repository
+    chroot: true
+    script: scripts/setup-apt.sh {{ $debian_suite }} {{ $suite }}
 
 {{ if eq $nonfree "true" }}
   - action: run
