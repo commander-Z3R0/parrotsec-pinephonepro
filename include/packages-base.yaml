@@ -8,8 +8,7 @@ actions:
     recommends: false
     description: Install base packages
     packages:
-      - mobian-base
-      # Base system (de mobian-base)
+# Base system (from mobian-base)
       - alsa-ucm-conf
       - alsa-utils
       - apt-utils
@@ -25,41 +24,40 @@ actions:
       - kbd
       - locales
       - locales-all
-	  - man-db
-	  - mmc-utils
-	  - patch
-	  - pipewire-audio
-	  - python3-dbus
-	  - rtkit
-	  - sudo
-	  - usb-modeswitch
-	  - usbutils
-	  - wireplumber
-	  # PinePhone Pro específico
-	  - linux-image-arm64
-	  - linux-headers-arm64
-	  # ParrotOS esenciales
-	  - curl
-	  - vim
-	  - htop
-	  # Network & Bluetooth
-	  - network-manager
-	  - bluetooth
-	  - wpasupplicant
-	  - wireless-tools
-	  - rfkill
-	  # Audio (PinePhone)
-	  - libspa-0.2-bluetooth
-	  # Systemd networking
-	  - systemd-resolved
-	  # Comprimir para ahorrar espacio
-	  - bzip2
-	  - xz-utils
-	  - zstd
-	  # Utilities
-	  - inetutils-ping
-	  - iptables
-	  - net-tools
+      - man-db
+      - mmc-utils
+      - patch
+      - pipewire-audio
+      - python3-dbus
+      - rtkit
+      - sudo
+      - usb-modeswitch
+      - usbutils
+      - wireplumber
+# PinePhone Pro utils
+      - linux-image-arm64
+      - linux-headers-arm64
+# ParrotOS essentials
+      - curl
+      - vim
+      - htop
+# Network & Bluetooth
+      - network-manager
+      - bluetooth
+      - wpasupplicant
+      - wireless-tools
+      - rfkill
+# Audio (PinePhone)
+      - libspa-0.2-bluetooth
+# Systemd networking
+      - systemd-resolved
+      - bzip2
+      - xz-utils
+      - zstd
+# Utils
+      - inetutils-ping
+      - iptables
+      - net-tools
 {{ if $ssh }}
       - openssh-server
 {{ end }}
