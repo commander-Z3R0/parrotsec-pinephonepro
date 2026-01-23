@@ -1,5 +1,5 @@
 #!/bin/sh
-DEBIAN_SUITE=$1
+DEBIAN_SUITE=forky
 SUITE=$2
 
 # Parrot repos (prioridad 700)

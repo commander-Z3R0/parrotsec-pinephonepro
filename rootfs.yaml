@@ -44,7 +44,7 @@ actions:
   - action: run
     description: Setup Parrotsec repository
     chroot: true
-    script: scripts/setup-apt.sh {{ $debian_suite }} {{ $suite }}
+    script: scripts/setup-apt.sh {{ $suite }}
 
 {{ if eq $nonfree "true" }}
   - action: run
