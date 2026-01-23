@@ -4,12 +4,11 @@
 architecture: {{ $architecture }}
 
 #actions:
-#  - action: run
-#    description: Ensure we have a valid extlinux.conf
-#    chroot: true
-#    command: /etc/kernel/postinst.d/zz-u-boot-menu "$(linux-version list | tail -1)"
+  - action: run
+    description: Ensure we have a valid extlinux.conf
+    chroot: true
+    command: /etc/kernel/postinst.d/zz-u-boot-menu "$(linux-version list | tail -1)"
 
-actions:
   - action: run
     description: "Generating extlinux configuration"
     chroot: true
