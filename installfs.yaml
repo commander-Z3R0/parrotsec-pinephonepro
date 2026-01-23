@@ -2,11 +2,11 @@
 {{- $username := or .username "parrot" -}}
 {{- $password := or .password "123456" -}}
 {{- $hostname := or .hostname "pinephonepro" -}}
-{{- $debian_suite := or .debian_suite "echo" -}}
+{{- $debian_suite := or .debian_suite "trixie" -}}
 {{- $suite := or .suite $debian_suite -}}
 {{- $environment := or .environment "phosh" -}}
 {{- $installfs := or .installfs "installfs.tar.gz" }}
-{{- $mirror := or .mirror "https://deb.parrot.sh/parrot" -}}
+{{- $mirror := or .mirror "http://deb.debian.org/debian" -}}
 
 architecture: {{ $architecture }}
 

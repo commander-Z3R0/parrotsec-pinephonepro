@@ -5,7 +5,7 @@
 {{- $partitiontable := or .partitiontable "gpt" }}
 {{- $filesystem := or .filesystem "ext4" }}
 {{- $environment := or .environment "phosh" -}}
-{{- $image := or .image "parrot-installer.img" -}}
+{{- $image := or .image "parrotsec-installer.img" -}}
 {{- $installersize := or .installersize "10GB" }}
 {{- $installfs := or .installfs "installfs.tar.gz" }}
 {{- $bootstart := or .bootstart "1MiB" }}

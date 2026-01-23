@@ -8,7 +8,7 @@ if [ -z "${ARGS+x}" ]; then
     ARGS=""
 fi
 
-device="pinephonepro"
+device="pinephone"
 image="image"
 partitiontable="gpt"
 filesystem="ext4"
@@ -29,8 +29,8 @@ use_docker=
 username=
 no_blockmap=
 ssh=
-debian_suite="echo"
-suite="echo"
+debian_suite="trixie"
+suite="trixie"
 contrib=
 sign=
 miniramfs=
@@ -109,16 +109,16 @@ esac
 
 installfs_file="installfs-${arch}.tar.gz"
 
-image_file="parrotsec-${device}-${environment}"
+image_file="sirros-${device}-${environment}"
 if [ "$installer" ]; then
   image="installer"
-  image_file="parrotsec-installer-${device}-${environment}-$(date +%Y%m%d)"
+  image_file="sirros-installer-${device}-${environment}-$(date +%Y%m%d)"
 fi
 
-#image_file="parrot-${device}-${environment}-$(date +%Y%m%d)"
+#image_file="sirros-${device}-${environment}-$(date +%Y%m%d)"
 #if [ "$installer" ]; then
 #  image="installer"
-#  image_file="parrotsec-installer-${device}-${environment}-$(date +%Y%m%d)"
+#  image_file="sirros-installer-${device}-${environment}-$(date +%Y%m%d)"
 #fi
 
 rootfs_file="rootfs-${arch}-${environment}.tar.gz"

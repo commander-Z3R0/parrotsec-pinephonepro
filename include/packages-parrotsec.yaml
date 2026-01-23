@@ -1,0 +1,40 @@
+{{- $architecture := or .architecture "arm64" -}}
+
+architecture: {{ $architecture }}
+
+actions:
+  - action: apt
+    description: Install Parrot base dependencies
+    recommends: false
+    packages:
+      - gnupg
+      - gnupg2
+      - ca-certificates
+      - curl
+      - wget
+      - apt-transport-https
+      - lsb-release
+      - sudo
+
+  - action: overlay
+    description: Copy Parrot system configuration
+    source: parrot-script/config/system/
+    destination: /
+
+  - action: overlay
+    description: Copy Parrot installer scripts
+    source: parrot-script/
+    destination: /opt/parrot-script/
+
+  - action: run
+    description: Fix Parrot script permissions
+    chroot: true
+    command: chmod +x /opt/parrot-script/install.sh
+
+  - action: run
+    description: Install Parrot Core edition
+    chroot: true
+    environment:
+      DEBIAN_FRONTEND: noninteractive
+    command: >
+      /opt/parrot-script/install.sh core

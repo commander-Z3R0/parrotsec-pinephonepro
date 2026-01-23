@@ -1,21 +1,13 @@
-FROM parrotsec/core
+FROM godebos/debos
 
-RUN apt-get update && apt-get install -y \
-    debos \
-    mobian-archive-keyring \
-    qemu-user-static \
-    binfmt-support \
-    cryptsetup \
-    cryptsetup-bin \
-    util-linux \
-    e2fsprogs \
-    kmod \
-    bmap-tools \
-    wget \
-    && apt-get clean \
-    && rm -rf /var/lib/apt/lists/*
+# Install tools required for LUKS encryption at image build time
+RUN apt-get update && \
+    apt-get install -y \
+        cryptsetup \
+        cryptsetup-bin \
+        util-linux \
+        e2fsprogs \
+        kmod && \
+    apt-get clean && \
+    rm -rf /var/lib/apt/lists/*
 
-RUN wget -O /tmp/parrot-archive-keyring_2024.12_all.deb \
-    https://deb.parrot.sh/parrot/pool/main/p/parrot-archive-keyring/parrot-archive-keyring_2024.12_all.deb \
-    && dpkg -i /tmp/parrot-archive-keyring_2024.12_all.deb \
-    && rm /tmp/parrot-archive-keyring_2024.12_all.deb

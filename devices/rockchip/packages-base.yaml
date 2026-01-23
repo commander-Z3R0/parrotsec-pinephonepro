@@ -8,14 +8,5 @@ actions:
     recommends: false
     description: Install device-specific base packages
     packages:
-# Replace pinephonepro-support
-      - linux-image-arm64
-      - linux-headers-arm64
-# Audio PinePhone Pro
-      - firmware-sof-signed
-      - rtkit
- # Touchscreen
-      - xserver-xorg-input-libinput
- # Power management
-      - powermgmt-base
+      - {{ $device }}-support
       - rsync

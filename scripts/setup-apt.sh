@@ -1,28 +1,19 @@
 #!/bin/sh
-MOBIAN_SUITE="bookworm"   
-PARROT_SUITE="echo"        
 
-# Parrot (suite echo)
-cat > /etc/apt/sources.list.d/parrot.list << EOF
-deb https://deb.parrot.sh/parrot ${PARROT_SUITE} main contrib non-free non-free-firmware
-EOF
+DEBIAN_SUITE=$1
+SUITE=$2
 
-# Mobian (suite trixie)
-cat > /etc/apt/sources.list.d/mobian.sources << EOF
-Types: deb
-URIs: https://repo.mobian.org/debian
-Suites: ${MOBIAN_SUITE}
-Components: main
-Signed-By: /usr/share/keyrings/mobian-archive-keyring.gpg
-EOF
+# Add debian-security for stable releases; note that only the main component is supported
+if [ "${DEBIAN_SUITE}" = "bullseye" ] || [ "${DEBIAN_SUITE}" = "bookworm" ] || [ "${DEBIAN_SUITE}" = "trixie" ]; then
+    echo "deb http://security.debian.org/ ${DEBIAN_SUITE}-security main" >> /etc/apt/sources.list
+fi
 
-# Priority: Parrot > Mobian
-cat > /etc/apt/preferences.d/99-parrot-priority << EOF
+# Set the proper suite in our sources file
+sed -i "s/Suites: .*/Suites: ${SUITE}/" /etc/apt/sources.list.d/mobian.sources
+
+# Setup repo priorities so mobian comes first
+cat > /etc/apt/preferences.d/00-mobian-priority << EOF
 Package: *
-Pin: origin deb.parrot.sh
+Pin: release o=Mobian
 Pin-Priority: 700
-
-Package: *
-Pin: origin repo.mobian.org
-Pin-Priority: 600
 EOF
