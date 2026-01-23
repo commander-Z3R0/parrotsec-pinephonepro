@@ -42,9 +42,9 @@ actions:
     destination: /etc/repart.d/
 
   - action: run
-    description: Setup Parrotsec repository
+    description: Setup Parrotsec & Mobian repository
     chroot: true
-    script: scripts/setup-apt.sh {{ $suite }}
+    script: scripts/setup-apt.sh 
 
 {{ if eq $nonfree "true" }}
   - action: run
