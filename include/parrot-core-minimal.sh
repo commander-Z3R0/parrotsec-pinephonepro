@@ -14,7 +14,7 @@ wget -q https://deb.parrot.sh/parrot/pool/main/p/parrot-archive-keyring/parrot-a
 apt-get install -y ./parrot-archive-keyring_2024.12_all.deb
 
 echo "[+] Adding Parrot repository"
-echo "deb https://deb.parrot.sh/parrot forky main" > /etc/apt/sources.list.d/parrot.list
+echo "deb https://deb.parrot.sh/parrot rolling main" > /etc/apt/sources.list.d/parrot.list
 
 echo "[+] Installing Parrot core"
 apt-get update
