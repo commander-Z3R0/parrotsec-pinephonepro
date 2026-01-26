@@ -12,9 +12,9 @@
 {{- $nonfree := or .nonfree "false" -}}
 {{- $rootfs := or .rootfs "rootfs.tar.gz" }}
 {{- $password := or .password "123456" -}}
-{{- $crypt_password := or .crypt_password "parrotsec" -}}
+{{- $crypt_password := or .crypt_password "parrot" -}}
 # {{- $crypt_password := or .crypt_password $password -}}  # Uncomment this line only if you want to use the user password as LUKS passphrase
-{{- $crypt_root := or .crypt_root "false" -}} # Commented temporaly
+{{- $crypt_root := or .crypt_root "true" -}}
 {{- $bootonroot := or .bootonroot "false" }}
 
 architecture: {{ $architecture }}

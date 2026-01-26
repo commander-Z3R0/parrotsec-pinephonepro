@@ -1,42 +1,67 @@
 #!/bin/bash
-
 set -e
 
 PASSWORD="${1}"
 BOOTONROOT="${2}"
 
+# ROOTDIR must be provided by debos
+: "${ROOTDIR:?ROOTDIR is not set}"
+
 PART=""
 PARTNR=2
 
-lsblk -n -o kname,pkname,mountpoint
-if [ -e /dev/vda1 ]; then
+echo "[+] Detecting target disk"
+
+# Prefer virtio disk if present (fakemachine/qemu)
+if [ -b /dev/vda ]; then
     TARGET_DISK=/dev/vda
 else
-    TARGET_DISK=$(lsblk -n -o kname,pkname,mountpoint | grep loop | grep '/boot$' | awk '{ print $1 }')
+    # Fallback: detect disk owning the mounted /boot partition
+    TARGET_DISK="$(lsblk -n -o PKNAME,MOUNTPOINT | awk '$2=="/boot"{print "/dev/"$1; exit}')"
 fi
 
+if [ -z "${TARGET_DISK}" ] || [ ! -b "${TARGET_DISK}" ]; then
+    echo "ERROR: Unable to detect target disk"
+    exit 1
+fi
+
+echo "[+] Using target disk: ${TARGET_DISK}"
+
+# Unmount root (and boot if separate) before encryption
 if [ "${BOOTONROOT}" != "true" ]; then
-    umount -lf $ROOTDIR/boot $ROOTDIR
+    umount -lf "${ROOTDIR}/boot" || true
+    umount -lf "${ROOTDIR}"
 else
-    umount -lf $ROOTDIR
+    umount -lf "${ROOTDIR}"
     PARTNR=1
 fi
 
-if echo ${TARGET_DISK} | grep -q p1; then
+# Handle devices using pX partition naming (e.g. mmcblk0p2)
+if [[ "${TARGET_DISK}" =~ [0-9]$ ]]; then
     PART="p"
-    TARGET_DISK="/dev/$(echo ${TARGET_DISK} | sed 's:p1::')"
 fi
 
-FILESYSTEM="$(blkid -s TYPE -o value ${TARGET_DISK}${PART}${PARTNR})"
+ROOT_PART="${TARGET_DISK}${PART}${PARTNR}"
 
-if [ "${FILESYSTEM}" = 'ext4' ]
-then
-    echo "Minimize ext4 extent for rootfs filesystem to make room for cryptsetup"
-    resize2fs -fM ${TARGET_DISK}${PART}${PARTNR}
+echo "[+] Root partition: ${ROOT_PART}"
+
+FILESYSTEM="$(blkid -s TYPE -o value "${ROOT_PART}")"
+
+if [ -z "${FILESYSTEM}" ]; then
+    echo "ERROR: Unable to detect filesystem type"
+    exit 1
 fi
 
-echo "Setup encryption"
-echo "${PASSWORD}" | cryptsetup reencrypt ${TARGET_DISK}${PART}${PARTNR} root \
+# Shrink filesystem to make room for LUKS metadata
+if [ "${FILESYSTEM}" = "ext4" ]; then
+    echo "[+] Minimizing ext4 filesystem before encryption"
+    resize2fs -fM "${ROOT_PART}"
+fi
+
+echo "[+] Encrypting root filesystem with LUKS2"
+
+# Re-encrypt in-place to avoid repartitioning
+echo "${PASSWORD}" | cryptsetup reencrypt "${ROOT_PART}" root \
   --new \
   --reduce-device-size 32M \
   --type luks2 \
@@ -48,32 +73,49 @@ echo "${PASSWORD}" | cryptsetup reencrypt ${TARGET_DISK}${PART}${PARTNR} root \
   --pbkdf-parallel 2 \
   --iter-time 2000
 
-echo "Resize filesystem to fill up partition"
-if [ "${FILESYSTEM}" = 'ext4' ]
-then
-    resize2fs -f /dev/mapper/root
-elif [ "${FILESYSTEM}" = 'f2fs' ]
-then
-    resize.f2fs -s /dev/mapper/root
-elif [ "${FILESYSTEM}" = 'btrfs' ]
-then
-    btrfs filesystem resize max /dev/mapper/root
-fi
+echo "[+] Resizing filesystem after encryption"
 
-# remount partitions
-mount /dev/mapper/root $ROOTDIR
+# Grow filesystem to fill the encrypted mapping
+case "${FILESYSTEM}" in
+    ext4)
+        resize2fs -f /dev/mapper/root
+        ;;
+    f2fs)
+        resize.f2fs -s /dev/mapper/root
+        ;;
+    btrfs)
+        btrfs filesystem resize max /dev/mapper/root
+        ;;
+esac
+
+echo "[+] Remounting root filesystem"
+
+mount /dev/mapper/root "${ROOTDIR}"
+
 if [ "${BOOTONROOT}" != "true" ]; then
-    mount ${TARGET_DISK}${PART}1 $ROOTDIR/boot
+    mount "${TARGET_DISK}${PART}1" "${ROOTDIR}/boot"
 fi
 
-# get root partition UUID
-rootfs=$(blkid -s UUID -o value ${TARGET_DISK}${PART}${PARTNR})
+# Retrieve UUID of the encrypted container
+rootfs_uuid="$(blkid -s UUID -o value "${ROOT_PART}")"
 
-echo "Create fstab"
-echo "/dev/mapper/root  /   ${FILESYSTEM}   defaults,noatime,x-systemd.growfs   0   1" > $ROOTDIR/etc/fstab
+echo "[+] Writing fstab"
+
+cat > "${ROOTDIR}/etc/fstab" <<EOF
+/dev/mapper/root  /  ${FILESYSTEM}  defaults,noatime,x-systemd.growfs  0  1
+EOF
+
 if [ "${BOOTONROOT}" != "true" ]; then
-    echo "LABEL=boot        /boot   ext4    defaults,noatime,x-systemd.growfs   0   1" >> $ROOTDIR/etc/fstab
+cat >> "${ROOTDIR}/etc/fstab" <<EOF
+LABEL=boot  /boot  ext4  defaults,noatime,x-systemd.growfs  0  1
+EOF
 fi
 
-echo "Create crypttab"
-echo "root UUID=$rootfs none luks,keyscript=/usr/share/initramfs-tools/scripts/unl0kr-keyscript" > $ROOTDIR/etc/crypttab
+echo "[+] Writing crypttab"
+
+# unl0kr keyscript enables passphrase entry on mobile devices
+cat > "${ROOTDIR}/etc/crypttab" <<EOF
+root UUID=${rootfs_uuid} none luks,keyscript=/usr/share/initramfs-tools/scripts/unl0kr-keyscript
+EOF
+
+echo "[+] LUKS setup completed successfully"
