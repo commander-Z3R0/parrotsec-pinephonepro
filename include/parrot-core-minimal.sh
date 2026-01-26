@@ -48,7 +48,7 @@ apt-get install -y \
   -o Dpkg::Options::=--force-confold \
   parrot-tools-reporting \
   parrot-tools-password \
-  parrot-tools-crypto
+  parrot-tools-wireless
 
 echo "[+] Fixing dpkg"
 dpkg --configure -a || true
