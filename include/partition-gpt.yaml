@@ -1,7 +1,7 @@
 {{- $architecture := or .architecture "arm64" -}}
 {{- $filesystem := or .filesystem "ext4" }}
 {{- $image := or .image "sirros-$device" -}}
-{{- $imagesize := or .imagesize "6GB" }}
+{{- $imagesize := or .imagesize "10GB" }}
 {{- $bootstart := or .bootstart "1MiB" }}
 {{- $installer := or .installer "false" }}
 {{- $bootonroot := or .bootonroot "false" }}
