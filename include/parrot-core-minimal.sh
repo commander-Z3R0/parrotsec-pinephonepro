@@ -46,8 +46,10 @@ echo "[+] Installing parrot-core safely"
 apt-get install -y \
   -o Dpkg::Options::=--force-confdef \
   -o Dpkg::Options::=--force-confold \
-  parrot-core-lite \
-  parrot-meta-privacy
+  parrot-tools-core \
+  parrot-tools-password \
+  parrot-tools-forensics \
+  parrot-tools-crypto
 
 echo "[+] Fixing dpkg"
 dpkg --configure -a || true
