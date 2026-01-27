@@ -42,28 +42,28 @@ actions:
 
   - action: filesystem-deploy
     description: Deploy filesystem onto image
-{{ if eq $crypt_root "true" }}
-    setup-fstab: false
+#{{ if eq $crypt_root "true" }}
+#    setup-fstab: false
 
-  - action: apt
-    description: Install cryptsetup
-    packages:
-      - cryptsetup
-      - cryptsetup-initramfs
-      - initramfs-tools
-      - unl0kr
+#  - action: apt
+#    description: Install cryptsetup
+#    packages:
+#      - cryptsetup
+#      - cryptsetup-initramfs
+#      - initramfs-tools
+#      - unl0kr
 
-  - action: run
-    description: Encrypt root filesystem
-    label: setup-luks
-    raw: true
-    chroot: false
-    mount-dev: true
-    script: scripts/setup-luks.sh {{ $crypt_password }} {{ $bootonroot }}
+#  - action: run
+#    description: Encrypt root filesystem
+#    label: setup-luks
+#    raw: true
+#    chroot: false
+#    mount-dev: true
+#    script: scripts/setup-luks.sh {{ $crypt_password }} {{ $bootonroot }}
 
-  - action: recipe
-    recipe: include/packages-fde.yaml
-{{ end }}
+#  - action: recipe
+#    recipe: include/packages-fde.yaml
+#{{ end }}
 
 {{ if eq $filesystem "btrfs" }}
   - action: apt
@@ -107,15 +107,15 @@ actions:
       - miniramfs
 {{ end }}
 
-{{ if eq $crypt_root "true" }}
+#{{ if eq $crypt_root "true" }}
 # When building with fakemachine, the initrd crypttab is empty
 # We need this additional step which fully mounts /dev so cryptsetup
 # can create a proper crypttab
-  - action: run
-    description: Force initramfs update
-    chroot: true
-    script: scripts/update-initramfs.sh
-{{ end }}
+#  - action: run
+#    description: Force initramfs update
+#    chroot: true
+#    script: scripts/update-initramfs.sh
+#{{ end }}
 
   - action: run
     description: Cleanup filesystem
