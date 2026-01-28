@@ -1,5 +1,4 @@
-name: Build and Release ParrotOS PinePhone Pro (Encrypted LUKS)
-
+name: Build ParrotOS PinePhone Pro 
 on:
   workflow_dispatch:
 
