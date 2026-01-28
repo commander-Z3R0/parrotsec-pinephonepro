@@ -1,21 +1,21 @@
-# ParrotSec for PinePhone Pro
+# Parrot OS for PinePhone Pro
 
-**ParrotSec for PinePhone Pro** is a privacy-focused and lightweight Linux distribution based on **Debian**, tailored specifically for the **PinePhone Pro** mobile device.
+**ParrotOS for PinePhone Pro** is a privacy-focused and lightweight Linux distribution based on **Debian**, tailored specifically for the **PinePhone Pro** mobile device.
 This build is optimized for ARM architecture, providing a secure and minimal environment with essential tools for security, development, and privacy.
 
 ---
 
 ##  Features
 
-*  **Hardened Security** – Includes ParrotSec’s security enhancements and privacy-focused defaults.
-*  **Official Repositories** – Preconfigured ParrotSec mirrors and keys for seamless updates and package installation.
+*  **Hardened Security** – Includes ParrotOS’s security enhancements and privacy-focused defaults.
+*  **Official Repositories** – Preconfigured ParrotOS mirrors and keys for seamless updates and package installation.
 *  **Lightweight Setup** – Minimal preinstalled packages to keep the system efficient and responsive on mobile hardware.
 *  **Hardware Support** – Full support for PinePhone Pro networking, display, input, and peripherals.
-*  **Flexibility** – Install additional tools from ParrotSec repositories as needed.
+*  **Flexibility** – Install additional tools from ParrotOS repositories as needed.
 
 ---
 
-## Why Use ParrotSec on PinePhone Pro?
+## Why Use ParrotOS on PinePhone Pro?
 
 * A **secure mobile Linux experience** designed for users who prioritize **privacy, control, and transparency**.
 * Lightweight and minimal — no unnecessary bloat.
@@ -44,7 +44,7 @@ This build is optimized for ARM architecture, providing a secure and minimal env
 
 * [ ] Improve power management and battery optimization
 * [ ] Expand driver support for peripherals
-* [ ] Prebuilt images with popular ParrotSec toolsets
+* [ ] Prebuilt images with popular ParrotOS toolsets
 * [ ] Documentation for advanced users and developers
 
 ---
@@ -60,4 +60,4 @@ Contributions are welcome!
 
 ## License
 
-This project follows the **ParrotSec licensing terms**. See the official [ParrotSec website](https://www.parrotsec.org) for details.
+This project follows the **ParrotOS licensing terms**. See the official [ParrotOS website](https://www.Parrotsec.org) for details.
