@@ -63,7 +63,7 @@ actions:
       echo "[+] Block GNOME desktop packages"
       cat << 'PIN' > /etc/apt/preferences.d/99-block-gnome
       Package: gnome-*
-      Pin: *
+      Pin: origin
       Pin-Priority: -1
       PIN
 
@@ -75,7 +75,6 @@ actions:
       apt-get install -y --no-install-recommends \
         -o Dpkg::Options::=--force-confdef \
         -o Dpkg::Options::=--force-confold \
-        parrot-apt \
         parrot-menu \
         parrot-themes
 
