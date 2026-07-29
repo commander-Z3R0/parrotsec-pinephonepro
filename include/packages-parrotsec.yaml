@@ -104,6 +104,13 @@ actions:
     description: Replace Mobian Plymouth logo with custom Parrot logo
     source: parrot-script/usr/share/plymouth/themes/mobian/logo.png
     destination: /usr/share/plymouth/themes/mobian/logo.png
+
+  - action: run
+    chroot: true
+    description: Replace Background Blobs
+    command: |
+      curl -L -o /usr/share/backgrounds/gnome/blobs-d.svg https://raw.githubusercontent.com/commander-Z3R0/repository-assets/refs/heads/main/ParrotOS-PinephonePro/parrot-wallpapers/grid-parrot.svg
+      curl -L -o /usr/share/backgrounds/gnome/blobs-l.svg https://raw.githubusercontent.com/commander-Z3R0/repository-assets/refs/heads/main/ParrotOS-PinephonePro/parrot-wallpapers/grid-parrot.svg
     
   - action: run
     description: Fix permissions for Parrot CLI tools
