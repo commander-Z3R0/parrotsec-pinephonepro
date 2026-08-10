@@ -93,7 +93,12 @@ actions:
     description: Set up system
     chroot: true
     script: scripts/setup-system.sh {{ $hostname }}
-  
+
+  - action: run
+    description: Removes the expiration date from the _greetd user account (Try to fix temporaly)
+    chroot: true
+    command: chage -E -1 _greetd
+
   - action: recipe
     recipe: include/packages-parrotsec.yaml
 
